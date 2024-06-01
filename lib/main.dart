@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:neighborhood_watch_walnut/pages/home.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,22 +11,8 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Stack(children: [
-          FlutterMap(
-            options: MapOptions(
-              initialCenter: LatLng(34.04208, -117.84642),
-              initialZoom: 16,
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'com.example.app',
-              )
-            ],
-          )
-        ]),
-      ),
+      title: "WALNUT Neighborhood Watch",
+      home: HomePage(),
     );
   }
 }
