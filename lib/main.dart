@@ -13,20 +13,17 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
             appBar: PreferredSize(
-              preferredSize: Size.fromHeight(30.0),
-            
-            
-            child:AppBar(
-              centerTitle: true,
-              title: const Text("WALNUT Neighborhood watch"),
-              backgroundColor: Colors.orange,
-              
-            
-            )),
+                preferredSize: Size.fromHeight(30.0),
+                child: AppBar(
+                  centerTitle: true,
+                  title: const Text("WALNUT Neighborhood watch"),
+                  backgroundColor: Colors.orange,
+                )),
             body: HomePage(),
             bottomNavigationBar:
-              BottomNavigationBar(items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.camera), label: "Camera"),
+                BottomNavigationBar(items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.camera), label: "Camera"),
               BottomNavigationBarItem(icon: Icon(Icons.money), label: "Money")
             ])));
   }
