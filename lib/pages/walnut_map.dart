@@ -19,6 +19,7 @@ class _WalnutMapPageState extends State<WalnutMap> {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
+        interactionOptions: InteractionOptions(flags: InteractiveFlag.pinchZoom|InteractiveFlag.drag),
           initialCenter: const LatLng(34.04208, -117.84642),
           onTap: (TapPosition, point) => {
                 print(point),
