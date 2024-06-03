@@ -8,7 +8,8 @@ class MapMarkerOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MobileLayerTransformer(
-        child: MarkerLayer(markers: [
+        child: MarkerLayer( rotate: false, markers: [
+
       Marker(
         point: LatLng(34.04900, -117.850000),
         width: 64,
