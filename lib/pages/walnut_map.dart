@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:neighborhood_watch_walnut/map_layers/mark_layer.dart';
 
 class WalnutMap extends StatefulWidget {
-  static const String route = '/';
   const WalnutMap({super.key});
   @override
   State<WalnutMap> createState() => _WalnutMapPageState();
@@ -19,14 +19,9 @@ class _WalnutMapPageState extends State<WalnutMap> {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
-          initialCenter: LatLng(34.04208, -117.84642),
+          initialCenter: const LatLng(34.04208, -117.84642),
           onTap: (TapPosition, point) => {
-                showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                          title: Text("THREAT"),
-                          content: Text('$point'),
-                        ))
+                print(point),
               },
           initialZoom: 16,
           cameraConstraint: CameraConstraint.contain(
@@ -36,7 +31,8 @@ class _WalnutMapPageState extends State<WalnutMap> {
         TileLayer(
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
-        )
+        ),
+        const MapMarkerOverlay()
       ],
     );
   }
