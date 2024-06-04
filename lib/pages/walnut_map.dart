@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:neighborhood_watch_walnut/map_layers/mark_layer.dart';
+import 'package:neighborhood_watch_walnut/pages/possible_crime_form.dart';
 
 class WalnutMap extends StatefulWidget {
   const WalnutMap({super.key});
@@ -10,6 +11,8 @@ class WalnutMap extends StatefulWidget {
 }
 
 class _WalnutMapPageState extends State<WalnutMap> {
+  MapMarkerOverlay markerLayer = MapMarkerOverlay();
+
   @override
   void initState() {
     super.initState();
@@ -19,10 +22,35 @@ class _WalnutMapPageState extends State<WalnutMap> {
   Widget build(BuildContext context) {
     return FlutterMap(
       options: MapOptions(
-        interactionOptions: InteractionOptions(flags: InteractiveFlag.pinchZoom|InteractiveFlag.drag),
+          interactionOptions: const InteractionOptions(
+              flags: InteractiveFlag.pinchZoom |
+                  InteractiveFlag.drag |
+                  InteractiveFlag.scrollWheelZoom),
           initialCenter: const LatLng(34.04208, -117.84642),
+          onMapEvent: (x) => {setState(() {})},
           onTap: (TapPosition, point) => {
-                print(point),
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("HELLO"),
+                        content: CriminalFormSubmission(
+                            markerCoordinates: point.toString()),
+                        actions: [
+                          ElevatedButton(
+                              onPressed: () => {
+                                    Navigator.pop(context),
+                                    markerLayer.submitNewMarker(
+                                        point.latitude, point.longitude)
+                                  },
+                              child: const Text("Submit")),
+                          ElevatedButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text("Close"))
+                        ],
+                      );
+                    })
               },
           initialZoom: 16,
           cameraConstraint: CameraConstraint.contain(
@@ -33,7 +61,7 @@ class _WalnutMapPageState extends State<WalnutMap> {
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
         ),
-        const MapMarkerOverlay()
+        markerLayer
       ],
     );
   }
