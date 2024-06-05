@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:neighborhood_watch_walnut/map_layers/mark_layer.dart';
+import 'package:neighborhood_watch_walnut/models/marker_data.dart';
 import 'package:neighborhood_watch_walnut/pages/possible_crime_form.dart';
 
 class WalnutMap extends StatefulWidget {
@@ -12,6 +13,7 @@ class WalnutMap extends StatefulWidget {
 
 class _WalnutMapPageState extends State<WalnutMap> {
   MapMarkerOverlay markerLayer = MapMarkerOverlay();
+  List<Marker> cityCrimeMarkers = [];
 
   @override
   void initState() {
@@ -40,19 +42,36 @@ class _WalnutMapPageState extends State<WalnutMap> {
           urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
           userAgentPackageName: 'com.example.app',
         ),
-        markerLayer
+        MarkerLayer(
+          markers: cityCrimeMarkers,
+          rotate: false,
+        )
       ],
     );
   }
 
   Future _getResultsAsync(BuildContext context, double lon, double lat) async {
-    final result = await Navigator.push(
+    MarkerData result = await Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => CriminalFormSubmission(
                   latitudeCoordinate: lat,
                   longituteCoordinate: lon,
                 )));
+    cityCrimeMarkers.add(Marker(
+      point: LatLng(result.latitude, result.longitude),
+      width: 20,
+      height: 20,
+      alignment: Alignment.center,
+      child: const ColoredBox(
+        color: Colors.lightBlue,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text('~'),
+        ),
+      ),
+    ));
     print(result.toString());
+    setState(() {});
   }
 }
