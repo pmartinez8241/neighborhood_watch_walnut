@@ -28,30 +28,9 @@ class _WalnutMapPageState extends State<WalnutMap> {
                   InteractiveFlag.scrollWheelZoom),
           initialCenter: const LatLng(34.04208, -117.84642),
           onMapEvent: (x) => {setState(() {})},
-          onTap: (TapPosition, point) => {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("HELLO"),
-                        content: CriminalFormSubmission(
-                            markerCoordinates: point.toString()),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () => {
-                                    Navigator.pop(context),
-                                    markerLayer.submitNewMarker(
-                                        point.latitude, point.longitude)
-                                  },
-                              child: const Text("Submit")),
-                          ElevatedButton(
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text("Close"))
-                        ],
-                      );
-                    })
-              },
+          onTap: (TapPosition, point) {
+            _getResultsAsync(context, point.longitude, point.latitude);
+          },
           initialZoom: 16,
           cameraConstraint: CameraConstraint.contain(
               bounds: LatLngBounds(const LatLng(34.003931, -117.891541),
@@ -64,5 +43,16 @@ class _WalnutMapPageState extends State<WalnutMap> {
         markerLayer
       ],
     );
+  }
+
+  Future _getResultsAsync(BuildContext context, double lon, double lat) async {
+    final result = await Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => CriminalFormSubmission(
+                  latitudeCoordinate: lat,
+                  longituteCoordinate: lon,
+                )));
+    print(result.toString());
   }
 }
