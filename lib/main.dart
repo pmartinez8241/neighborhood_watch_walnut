@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:neighborhood_watch_walnut/pages/home.dart';
 import 'package:neighborhood_watch_walnut/pages/walnut_map.dart';
 
 void main() {
