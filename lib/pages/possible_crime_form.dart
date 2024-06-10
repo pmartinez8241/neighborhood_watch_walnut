@@ -39,58 +39,51 @@ class _CriminalFormSubmissionState extends State<CriminalFormSubmission> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: crimeLatController,
-                      decoration: const InputDecoration(
-                          labelText: "Latitude Coordinate"),
+    return AlertDialog(
+        contentPadding: EdgeInsets.all(5),
+        content: SingleChildScrollView(
+            scrollDirection: axisDirectionToAxis(AxisDirection.up),
+            child: Column(children: [
+              Form(
+                key: _formKey,
+                child: Column(children: [
+                  TextFormField(
+                    controller: crimeLatController,
+                    decoration:
+                        const InputDecoration(labelText: "Latitude Coordinate"),
 
-                      /*
+                    /*
                       decoration: const InputDecoration(
                           labelText: "Latitude Coordinate"),
                       readOnly: true,
                       initialValue: widget.latitudeCoordinate.toString(),
                     )*/
-                    )),
-                SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: crimeLonController,
-                      decoration: const InputDecoration(
-                          labelText: "Longitude Coordinate"),
-                    )),
-                SizedBox(
-                    width: 250,
-                    child: TextFormField(
-                      controller: crimeDescriptionController,
-                      maxLines: 10,
-                      decoration: const InputDecoration(
-                          labelText: "Description of Event"),
-                      // The validator receives the text that the user has entered.
-                    )),
-                ElevatedButton(
-                  onPressed: () {
-                    MarkerData submittedMarker = MarkerData(
-                        lon: double.parse(crimeLonController.text),
-                        lat: double.parse(crimeLatController.text),
-                        description: crimeDescriptionController.text);
-                    Navigator.pop(context, submittedMarker);
-                  },
-                  child: const Text("submit"),
-                )
-              ],
-            ),
-          ),
-        ]),
-      ),
-    );
+                  ),
+                  TextFormField(
+                    controller: crimeLonController,
+                    decoration: const InputDecoration(
+                        labelText: "Longitude Coordinate"),
+                  ),
+                  TextFormField(
+                    controller: crimeDescriptionController,
+                    maxLines: 8,
+                    style: TextStyle(fontSize: 12),
+                    decoration: const InputDecoration(
+                        labelText: "Description of Event"),
+                    // The validator receives the text that the user has entered.
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      MarkerData submittedMarker = MarkerData(
+                          lon: double.parse(crimeLonController.text),
+                          lat: double.parse(crimeLatController.text),
+                          description: crimeDescriptionController.text);
+                      Navigator.pop(context, submittedMarker);
+                    },
+                    child: const Text("submit"),
+                  )
+                ]),
+              )
+            ])));
   }
 }
