@@ -1,26 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-
+import 'package:neighborhood_watch_walnut/Provider/mark_provider.dart';
 import 'package:neighborhood_watch_walnut/models/marker_data.dart';
 import 'package:neighborhood_watch_walnut/pages/possible_crime_form.dart';
 
-class WalnutMap extends StatefulWidget {
-  const WalnutMap({super.key});
+class WalnutMap extends ConsumerWidget {
   @override
-  State<WalnutMap> createState() => _WalnutMapPageState();
-}
-
-class _WalnutMapPageState extends State<WalnutMap> {
-  List<Marker> cityCrimeMarkers = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return FlutterMap(
       options: MapOptions(
           interactionOptions: const InteractionOptions(
@@ -28,9 +16,9 @@ class _WalnutMapPageState extends State<WalnutMap> {
                   InteractiveFlag.drag |
                   InteractiveFlag.scrollWheelZoom),
           initialCenter: const LatLng(34.04208, -117.84642),
-          onMapEvent: (x) => {setState(() {})},
+          onMapEvent: (x) => {},
           onTap: (TapPosition, point) {
-            _getResultsAsync(context, point.longitude, point.latitude);
+            _getResultsAsync(context, ref, point.longitude, point.latitude);
           },
           initialZoom: 16,
           cameraConstraint: CameraConstraint.contain(
@@ -42,14 +30,20 @@ class _WalnutMapPageState extends State<WalnutMap> {
           userAgentPackageName: 'com.example.app',
         ),
         MarkerLayer(
-          markers: cityCrimeMarkers,
+          markers: ref
+              .watch(MarkerNotifier.markerNotifierProvier)
+              .map((e) => Marker(
+                  point: LatLng(e.latitude, e.longitude),
+                  child: const ColoredBox(color: Colors.black)))
+              .toList(),
           rotate: false,
         )
       ],
     );
   }
 
-  Future _getResultsAsync(BuildContext context, double lon, double lat) async {
+  Future _getResultsAsync(
+      BuildContext context, WidgetRef ref, double lon, double lat) async {
     MarkerData result = await Navigator.push(
         context,
         MaterialPageRoute(
@@ -57,20 +51,9 @@ class _WalnutMapPageState extends State<WalnutMap> {
                   latitudeCoordinate: lat,
                   longituteCoordinate: lon,
                 )));
-    cityCrimeMarkers.add(Marker(
-      point: LatLng(result.latitude, result.longitude),
-      width: 20,
-      height: 20,
-      alignment: Alignment.center,
-      child: const ColoredBox(
-        color: Colors.lightBlue,
-        child: Align(
-          alignment: Alignment.center,
-          child: Text('~'),
-        ),
-      ),
-    ));
+    ref
+        .watch(MarkerNotifier.markerNotifierProvier.notifier)
+        .add(result.longitude, result.latitude, result.description);
     print(result.toString());
-    setState(() {});
   }
 }
