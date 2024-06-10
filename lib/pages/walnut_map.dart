@@ -44,13 +44,13 @@ class WalnutMap extends ConsumerWidget {
 
   Future _getResultsAsync(
       BuildContext context, WidgetRef ref, double lon, double lat) async {
-    MarkerData result = await Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => CriminalFormSubmission(
-                  latitudeCoordinate: lat,
-                  longituteCoordinate: lon,
-                )));
+    MarkerData result = await showDialog(
+      context: context,
+      builder: (context) => CriminalFormSubmission(
+        latitudeCoordinate: lat,
+        longituteCoordinate: lon,
+      ),
+    );
     ref
         .watch(MarkerNotifier.markerNotifierProvier.notifier)
         .add(result.longitude, result.latitude, result.description);
