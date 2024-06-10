@@ -9,7 +9,7 @@
 .history
 .svn/
 migrate_working_dir/
-build/
+
 # IntelliJ related
 *.iml
 *.ipr
@@ -29,7 +29,6 @@ build/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-/build/
 .vscode/*
 
 # Symbolication related
@@ -42,4 +41,4 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
-pubspec.lock
+
