@@ -34,6 +34,6 @@ class MarkerData {
     final time = getTime();
     final date = getDate();
     // TODO: implement toString
-    return "longitude = $longitude\n Latitude = $latitude\n Description = $description\n SubmitTime = $time \nSubmit Date = $date";
+    return "longitude = $longitude\n Latitude = $latitude\n Description = $description\n SubmitTime = $time \nSubmit Date = $date\n ID = $id";
   }
 }
