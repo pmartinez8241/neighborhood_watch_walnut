@@ -4,9 +4,14 @@ class MarkerData {
   double longitude = 0.0;
   double latitude = 0.0;
   String description = "";
+  String id = "";
   DateTime currentDateTime = DateTime.now();
 
-  MarkerData({required double lon, required double lat, required description}) {
+  MarkerData(
+      {String? id,
+      required double lon,
+      required double lat,
+      required description}) {
     longitude = lon;
     latitude = lat;
     this.description = description;
