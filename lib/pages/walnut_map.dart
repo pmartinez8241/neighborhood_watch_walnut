@@ -45,6 +45,7 @@ class WalnutMap extends ConsumerWidget {
   Future _getResultsAsync(
       BuildContext context, WidgetRef ref, double lon, double lat) async {
     MarkerData result = await showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) => CriminalFormSubmission(
         latitudeCoordinate: lat,
