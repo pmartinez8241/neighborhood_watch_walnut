@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neighborhood_watch_walnut/pages/walnut_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:neighborhood_watch_walnut/widgets/map_bottomnavigationbar.dart';
 
 void main() {
   runApp(const ProviderScope(child: MainApp()));
@@ -12,7 +13,10 @@ class MainApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       initialRoute: "/",
-      routes: {"/": (context) => WalnutMap()},
+      routes: {
+        "/": (context) => WalnutMap(),
+        "/markerlist": (context) => MapBottomNavigationBar(),
+      },
     );
   }
 }
