@@ -11,14 +11,14 @@ class MarkersListView extends ConsumerWidget {
         body: Stack(children: [
       (ListView(
           children: ref
-              .watch(MarkerNotifier.markerNotifierProvier)
+              .watch(markerNotifierProvider)
               .map((x) => Card(
                       child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(x.latitude.toString()),
                       Text(x.longitude.toString()),
-                      Text(x.id.toString()),
+                      Text(x.id),
                       Text(x.description)
                     ],
                   )))

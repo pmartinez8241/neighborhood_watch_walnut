@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:neighborhood_watch_walnut/Provider/marker_provider.dart';
 import 'package:neighborhood_watch_walnut/models/marker_data.dart';
 import 'package:neighborhood_watch_walnut/pages/possible_crime_form.dart';
+import 'package:neighborhood_watch_walnut/provider/marker_provider.dart';
 
 class WalnutMap extends ConsumerWidget {
   @override
@@ -18,6 +18,9 @@ class WalnutMap extends ConsumerWidget {
           initialCenter: const LatLng(34.04208, -117.84642),
           onMapEvent: (x) => {},
           onTap: (TapPosition, point) {
+            ref
+                .read(markerNotifierProvider.notifier)
+                .addMarker(-117.858928, 34.503934, "Something");
             _getResultsAsync(context, ref, point.longitude, point.latitude);
           },
           initialZoom: 16,
@@ -31,7 +34,7 @@ class WalnutMap extends ConsumerWidget {
         ),
         MarkerLayer(
           markers: ref
-              .watch(MarkerNotifier.markerNotifierProvier)
+              .watch(markerNotifierProvider)
               .map((e) => Marker(
                   height: 10,
                   width: 10,
@@ -55,8 +58,8 @@ class WalnutMap extends ConsumerWidget {
       ),
     );
     ref
-        .watch(MarkerNotifier.markerNotifierProvier.notifier)
-        .add(result.longitude, result.latitude, result.description);
+        .watch(markerNotifierProvider.notifier)
+        .addMarker(result.longitude, result.latitude, result.description);
     print(result.toString());
   }
 }
