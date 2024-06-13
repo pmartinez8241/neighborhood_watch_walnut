@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:neighborhood_watch_walnut/models/marker_data.dart';
+import 'package:uuid/uuid.dart';
+
+const _uuid = Uuid();
 
 class CriminalFormSubmission extends StatefulWidget {
   final double longituteCoordinate;
@@ -72,16 +75,26 @@ class _CriminalFormSubmissionState extends State<CriminalFormSubmission> {
                         labelText: "Description of Event"),
                     // The validator receives the text that the user has entered.
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      MarkerData submittedMarker = MarkerData(
-                          lon: double.parse(crimeLonController.text),
-                          lat: double.parse(crimeLatController.text),
-                          description: crimeDescriptionController.text);
-                      Navigator.pop(context, submittedMarker);
-                    },
-                    child: const Text("submit"),
-                  )
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            var marker_id = _uuid.v4();
+                            MarkerData submittedMarker = MarkerData(
+                                markerId: marker_id,
+                                lon: double.parse(crimeLonController.text),
+                                lat: double.parse(crimeLatController.text),
+                                description: crimeDescriptionController.text);
+                            Navigator.pop(context, submittedMarker);
+                          },
+                          child: const Text("submit"),
+                        ),
+                        ElevatedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text("Cancel"))
+                      ])
                 ]),
               )
             ])));
