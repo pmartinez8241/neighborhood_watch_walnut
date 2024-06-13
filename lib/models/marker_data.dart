@@ -8,10 +8,11 @@ class MarkerData {
   DateTime currentDateTime = DateTime.now();
 
   MarkerData(
-      {String? id,
+      {required String markerId,
       required double lon,
       required double lat,
       required description}) {
+    id = markerId;
     longitude = lon;
     latitude = lat;
     this.description = description;
