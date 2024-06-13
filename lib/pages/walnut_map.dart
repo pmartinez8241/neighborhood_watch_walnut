@@ -4,12 +4,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:neighborhood_watch_walnut/models/marker_data.dart';
 import 'package:neighborhood_watch_walnut/pages/possible_crime_form.dart';
+import 'package:neighborhood_watch_walnut/provider/map_controller_provider.dart';
 import 'package:neighborhood_watch_walnut/provider/marker_provider.dart';
 
 class WalnutMap extends ConsumerWidget {
+  const WalnutMap({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final mapController = ref.watch(mapControllerProviderProvider);
     return FlutterMap(
+      mapController: mapController,
       options: MapOptions(
           interactionOptions: const InteractionOptions(
               flags: InteractiveFlag.pinchZoom |
@@ -18,9 +23,6 @@ class WalnutMap extends ConsumerWidget {
           initialCenter: const LatLng(34.04208, -117.84642),
           onMapEvent: (x) => {},
           onTap: (TapPosition, point) {
-            ref
-                .read(markerNotifierProvider.notifier)
-                .addMarker(-117.858928, 34.503934, "Something");
             _getResultsAsync(context, ref, point.longitude, point.latitude);
           },
           initialZoom: 16,
@@ -57,9 +59,12 @@ class WalnutMap extends ConsumerWidget {
         longituteCoordinate: lon,
       ),
     );
-    ref
-        .watch(markerNotifierProvider.notifier)
-        .addMarker(result.longitude, result.latitude, result.description);
+    ref.watch(markerNotifierProvider.notifier).addMarker(
+          result.id,
+          result.longitude,
+          result.latitude,
+          result.description,
+        );
     print(result.toString());
   }
 }
