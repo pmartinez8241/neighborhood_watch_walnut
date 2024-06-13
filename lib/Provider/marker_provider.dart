@@ -5,8 +5,6 @@ import '../models/marker_data.dart';
 
 part 'marker_provider.g.dart';
 
-const _uuid = Uuid();
-
 @riverpod
 class MarkerNotifier extends _$MarkerNotifier {
   @override
@@ -14,12 +12,13 @@ class MarkerNotifier extends _$MarkerNotifier {
     return [];
   }
 
-  void addMarker(double longitude, double latitude, String description) {
+  void addMarker(
+      String markerId, double longitude, double latitude, String description) {
     try {
       state = [
         ...state,
         MarkerData(
-            id: _uuid.v4(),
+            markerId: markerId,
             description: description,
             lat: latitude,
             lon: longitude),
